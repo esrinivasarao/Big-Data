@@ -1,0 +1,218 @@
+Sqoop 
+
+Sqoop is a tool to import/export from RDMS to HDFS.
+
+
+It is developed by Cloudera. 
+It uses jdbc to talk databases.
+It is a command line utility , there is no graphical interface. 
+
+
+Import total tables or some tables or output of a query. 
+
+Sqoop takes command, analyzes tables , generates java code , a map-only Mapreduct Job  starts to importa data. 
+By default it used 4 mappers, each mapper importing 25% of data. 
+
+Login into VM. 
+
+training/training
+
+check sql is running?
+=============================================
+$ sudo service mysqld status
+=============================================
+
+If is stopped.  Start the service. 
+=============================================
+$ sudo service mysqld start
+=============================================
+
+Enter root password to query. 
+=================================
+$ mysql -u root -p
+=================================
+Enter password : root 
+
+mysql prompt seen
+======================
+mysql>
+========================
+
+mysql>show databases;
+Output:  Database
+         ------------
+		 information_schema
+		 mysql
+		 test
+		 training_db
+		 
+================================
+mysql>use training_db;
+mysql>show tables; 
+===============================
+
+
+To clear screen
+=================
+mysql>control+L
+=====================
+*In windows, there is no command in mysql to clear screen or need to check. 
+
+To exit: 
+===============
+mysql>exit
+===============
+
+To check: 
+hadoop
+
+$ hadoop
+$ hadoop fs
+$ hadoop version 
+
+To check sqoop version: 
+=====================
+$ sqoop version 
+=====================
+will show you the version of sqoop on the system. 
+
+Sqoop 1.4.6-chd5.12.0 
+
+Available commands in sqoop: 
+=============================
+$ sqoop help
+==========================
+codegen
+create-hive-table
+eval
+export
+help
+import
+import-all-tables
+import-mainframe
+job
+list-databases
+list-tables
+merge
+metastore
+version
+
+
+
+
+
+
+sqoop requires a primary key to copy the tables
+
+show databases : 
+================================================
+$ sqoop list-databases \
+> --connect jdbc:mysql://localhost/training_db \
+> --username root --password root 
+=====================================================
+
+show tables: 
+==================================
+$ sqoop list-tables \
+> --connect jdbc:mysql://localhost/training_db \
+> --username root --password root
+=============================
+
+Task: 
+import tables into HDFS 
+
+First delete if any file user_log is there ( may be previously run and output still in file)
+
+$ hdfs dfs -rm -r /user/training/user*
+
+Deleted /user/training/user_log 
+
+Now import table the file : 
+======================================
+$ sqoop import --connect jdbc:mysql://localhost/training_db --username root --password root --table user_log --fields-terminated-by '\t' -m 1 
+====================================
+
+Count the rows in the file: 
+======================
+$ hdfs dfs -cat user_log/part-m-00000 | wc -l 
+===========================================
+
+To see the contents of the file: 
+========================================
+$ hdfs dfs -cat user_log/part-m-00000 
+===========================================
+
+How to perform sql queries on hdfs ?
+HIVE 
+
+
+Tutorial site 
+=============
+https://sites.google.com/a/einext.com/einext_original/hadoop/import-rdbms-data-using-sqoop
+
+
+
+
+TASK : copy customers table from retail_db from mysql to hadoop. 
+====================================================================
+$ sqoop import --connect jdbc:mysql://localhost/retail_db --username root --password root --table customers --warehouse-dir /user/training/sqoop_import/retail_db
+
+created fa folder sqoop_import: 
+
+check : 
+==================================
+[training@hadoop ~]$ hdfs dfs -ls
+=====================================
+Found 5 items
+drwxr-xr-x   - training supergroup          0 2020-05-23 20:08 input
+drwxr-xr-x   - training supergroup          0 2020-06-06 10:17 may30bhdfs
+drwxr-xr-x   - training supergroup          0 2020-05-23 20:21 output23
+drwxr-xr-x   - training supergroup          0 2020-08-21 09:17 sqoop_import
+drwxr-xr-x   - training supergroup          0 2020-08-19 17:39 user_log
+
+
+
+* By default there will be 4 spilts - 4 mappers 
+* In the table - primary key should be there , if not we have to mention, on which column we need to spilt. 
+
+check the files in sqoop_import: 
+==============================
+$ hdfs dfs -fs /user/training/sqoop_import/retail_db
+
+
+[training@hadoop ~]$ hdfs dfs -ls /user/training/sqoop_import/retail_db/*
+Found 5 items
+-rw-r--r--   1 training supergroup          0 2020-08-21 09:18 /user/training/sqoop_import/retail_db/customers/_SUCCESS
+-rw-r--r--   1 training supergroup     237145 2020-08-21 09:18 /user/training/sqoop_import/retail_db/customers/part-m-00000
+-rw-r--r--   1 training supergroup     237965 2020-08-21 09:18 /user/training/sqoop_import/retail_db/customers/part-m-00001
+-rw-r--r--   1 training supergroup     238092 2020-08-21 09:18 /user/training/sqoop_import/retail_db/customers/part-m-00002
+-rw-r--r--   1 training supergroup     240323 2020-08-21 09:18 /user/training/sqoop_import/retail_db/customers/part-m-00003
+
+display the text of the file: 
+==============================
+[training@hadoop ~]$ hdfs dfs -cat /user/training/sqoop_import/retail_db/customers/part-m-00000
+output like this: 
+1087,Heather,Romero,XXXXXXXXX,XXXXXXXXX,9380 Sleepy Valley,Richardson,TX,75080
+1088,Zachary,Smith,XXXXXXXXX,XXXXXXXXX,2567 Colonial Place,Caguas,PR,00725
+1089,Mary,Hamilton,XXXXXXXXX,XXXXXXXXX,2538 Sunny Beacon Vale,Raleigh,NC,27606
+1090,Katherine,Massey,XXXXXXXXX,XXXXXXXXX,9394 Umber Abbey,Caguas,PR,00725
+1091,Mary,Smith,XXXXXXXXX,XXXXXXXXX,9559 Merry Road,Tucson,AZ,85705
+1092,George,Garcia,XXXXXXXXX,XXXXXXXXX,7538 High Heights,Caguas,PR,00725
+1093,Julia,Bowers,XXXXXXXXX,XXXXXXXXX,1777 Old Willow Stead,Pomona,CA,91766
+
+If there is no primary key in the table, then we need to specify the column id to split
+==========================
+$ sqoop import --connect jdbc:mysql://localhost/retail_db --username root --password root --table customers --warehouse-dir /user/training/sqoop_import/retail_db
+split-by customer_id
+
+Sqoop can also read from not only databases but also from data warehouses
+
+To increase number of mappers 
+=============================
+num-mappers 20  ( along with the command this should be used to increase the mappers )
+
+
+
+
+
+

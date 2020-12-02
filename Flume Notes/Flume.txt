@@ -1,0 +1,9 @@
+Flume
+======
+
+Flume 							Kafka
+-----------------          -------------------------
+Point to point 				Multi point
+runs on a single machine	cluster
+cannot store data			can store data always
+Not a message queue 		Is a message queue

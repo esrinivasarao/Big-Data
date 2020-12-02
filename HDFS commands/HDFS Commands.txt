@@ -1,0 +1,357 @@
+HDFS Commands: 
+
+General way: $ hadoop fs -<linuxcommand> 
+hadoop file system is  WORM  (write once read many)
+** vi editor wont work in hadoop as it cannot be updated like a warehouse. 
+** there is no CD command in hadoop as that in hadoop , always use full path of the hadoop
+========================
+USER AND ROOT PASSWORD
+======================
+
+user name - training
+password -  training
+
+user name - root
+password - thoughtpolice
+
+=========
+$ hadoop
+==========
+( if installed gives some information )
+fs
+version
+jar
+...
+classpath...
+
+
+=============-====
+$ hadoop version
+==================
+
+Hadoop 2.0.0.cdh4.4.0
+
+****************************************
+Linux commands which are supported by Hadoop
+
+
+===================
+$ hadoop fs 
+===================
+List the commands those are supported in hadoop
+Execution of these commands takes some time because these are Java wrappers over linux commands. 
+
+*************************************************************
+$ hadoop fs 
+$ hadoop dfs    ( distributed file system )
+$ hdfs dfs 
+****************************************************************
+
+
+LFS : Local File System ( Linux Commands )
+HDFS : Hadoop File System 
+
+Normal user: 
+Root user: 
+
+
+switch to root user: 
+
+==================
+su
+==================
+1) $ su root 
+
+( su - switch user )
+
+==============
+jps
+==============
+To execute below command, root user has rights. Normal user will not have
+2) $ jps 
+
+$ sudo /usr/java/latest/bin/jps
+============================
+
+[training@hadoop ~]$ sudo /usr/java/latest/bin/jps
+3386 Jps
+2508 ResourceManager
+2006 DataNode
+2282 JobHistoryServer
+2145 SecondaryNameNode
+2073 NameNode
+2392 NodeManager
+[training@hadoop ~]$
+
+
+( java processes ) - Which componenents or Demons are running : will show all hadoop processes
+Main componenents : 
+
+Namenode - Master for storage
+DataNode - Slave for storage
+Secondary NameNode - Backup for Namenode
+
+ResourceManager - YARN
+NodeManager - YARN 
+JobHistoryServer
+
+================
+fsck
+================
+3) $ fsck 
+
+Checks health of the HDFS :
+
+syntax to execute hdfs commands: 
+
+==================================
+hdfs dfs <command> 
+===================================
+
+$ hdfs fsck /
+
+=================
+ls
+================
+4) $ hdfs dfs -ls /
+
+or 
+$ hadoop fs -ls /  ( same as above )
+/ - indicates root directory
+This command displays list of directories
+
+=================
+mkdir
+===============
+5) $ hdfs dfs -mkdir /bigdatatesting
+
+A directory is created under root directory. 
+
+
+=====================
+touchz
+=====================
+6) $ hdfs dfs -touchz /bigdatatesting/test.dat
+
+Used to create a new file with 0 bytes size. 
+How to check whether created ?
+$ hdfs dfs -ls /bigdatatesting/
+
+
+====================================
+du        : to know size of the file
+=====================================
+7) $ hdfs dfs -du -s /bigdatatesting/test.dat
+
+
+==============================================
+appendToFile
+==============================================
+
+***********vi editor cannot be used here because it is only to local file system
+8) $ hdfs dfs -appendToFile - /bigdatatesting/test.dat
+Sample file contents. 
+creates or appends content in the file. 
+Ended file entering. 
+Control + d   - to finish and exit. 
+
+=================
+cat
+================
+9) $ hdfs dfs -cat /bigdatatesting/test.dat
+To display the contents of the file. 
+
+
+=================================================
+copyFromLocal (put)  (moveFromLocal)
+==================================================
+10) $ hdfs dfs -copyFromLocal test1.dat /bigdatatesting/
+
+->create a file on local 
+->copyFromLocal 
+
+$ cat>>test1.dat
+testing hadoop
+testing bigdatatesting
+control+d (end end the file and exit)
+
+use the command to copy to hdfs 
+$ hdfs dfs -copyFromLocal test1.dat /bigdatatesting/
+
+check whether copied?
+$ dfs -ls /bigdatatesting/
+
+===================================================
+put
+==================================================
+11) $ hdfs dfs -put test2.dat /bigdatatesting/
+
+
+=====================================
+moveFromLocal 
+=====================================
+ -> cut and paste --> after moving the file from local file system to Hdfs, the file will not be there in local system
+
+
+=================================================
+copyToLocal (get) 
+================================================
+copy file from hdfs file system to local file system
+
+12) $ hdfs dfs -copyToLocal /bigdatatesting/test.dat /home/training
+File test.dat is copied to /home/training
+
+=========================
+get
+=========================
+
+13) $ hdfs dfs -get /bigdatatesting/test2.dat /home/training
+
+
+======================================
+moveToLocal
+=======================================
+
+======================================
+cp
+================================
+cp - copy : copies file from one location of hdfs to another location of hdfs 
+
+14) $ hdfs dfs -cp /bigdatatesting/test.dat /hadooptesting/
+
+========================
+mv
+=======================
+mv - moves a file from one location to another. The orginal file will not exist further. 
+This can be used also for renaming.  where source and destination is same path. 
+
+15) $ hdfs dfs -mv /bigdatatesting/test2.dat /hadooptesting/ 
+
+===========================
+rm
+=============================
+Removes file. 
+
+16) $ hdfs dfs -rm /bigdatatesting/test1.dat 
+
+==================================
+rm -r 
+===================================
+Removes directory 
+
+17) $ hdfs dfs -rm -r /bigdatatesting/
+
+====================================
+rmdir 
+=======================================
+Removes directory only if the directory is empty. 
+If it has files, it cannot remove, then go for  rm -r command.
+
+18) $ hdfs dfs -rmdir /bigdatatesting/
+
+================================
+usage
+=======================
+It gives help or information of the command. 
+
+19) $ hdfs dfs -usage mkdir 
+
+=============================
+help 
+==============================
+It gives information of the commands of the hdfs 
+
+
+
+=================
+count 
+==================
+It gives count of files and directories
+
+21) $ hdfs dfs -count /bigdatatesting
+
+1  2   294/bigdatatesting
+means :  1 directory , 2 files,  size 294 bytes. 
+
+
+=======================
+expunge
+======================
+To empty the thrash of hdfs 
+
+22) $ hdfs dfs -expunge 
+
+
+====================================
+chown
+====================================
+Change owner 
+
+
+
+=============
+du
+=============
+Gives files and sizes in bytes 
+
+==============
+du -s 
+=================
+Gives total size of the files in bytes 
+
+
+=================
+setrep
+====================
+
+Set replication factor
+Generally administrators use this. Do not use on the PRD, only admins may use this. 
+
+
+============
+stat
+============
+
+
+
+=================
+tail
+===============
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+http://localhost:50070/explorer.html#/
+
+
+
+clear - To clear the screen
+pwd - present working directory 
+
+ls -l  ( along with properties )
+
+in local linux system to refer root : ~/   ( tilde symbol , and slash )
+
+
+
+
+
+
+

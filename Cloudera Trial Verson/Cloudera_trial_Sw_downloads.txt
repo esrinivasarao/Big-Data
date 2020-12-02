@@ -1,0 +1,36 @@
+query for older version: 
+https://community.cloudera.com/t5/Support-Questions/Cloudera-Quickstart-VM-Download/td-p/291225
+(answer and for sandbox downloads)
+https://community.cloudera.com/t5/Support-Questions/Quickstart-VM/m-p/290564/highlight/true#M214948
+
+good responsw for old downloads: 
+==============================
+https://community.cloudera.com/t5/Support-Questions/Quick-start-download-removed/td-p/290248/highlight/true/page/2
+
+
+https://www.cloudera.com/downloads/quickstart_vms/5-13/config.html
+
+Around 5gb ( old ) 
+Around 21Gb ( new ) 
+
+old downloads
+=============
+
+Dropdown Title: Select a Platform
+Dropdown Type: downloadType
+Option Title: Virtual Box
+Option Value: vb
+Download Location: https://downloads.cloudera.com/demo_vm/virtualbox/cloudera-quickstart-vm-5.13.0-0-virtualbox.zip
+Download Type: asset
+Option Title: VMWare
+Option Value: vmw
+Download Location: https://downloads.cloudera.com/demo_vm/vmware/cloudera-quickstart-vm-5.13.0-0-vmware.zip
+Download Type: asset
+Option Title: KVM
+Option Value: kvm
+Download Location: https://downloads.cloudera.com/demo_vm/kvm/cloudera-quickstart-vm-5.13.0-0-kvm.zip
+Download Type: asset
+Option Title: Docker Image
+Option Value: docker
+Download Location: https://downloads.cloudera.com/demo_vm/docker/cloudera-quickstart-vm-5.13.0-0-beta-docker.tar.gz
+Download Type: asset

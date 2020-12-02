@@ -1,0 +1,41 @@
+HIVE
+====
+start vm, 
+start terminal node. 
+$ ifconfig
+==================================
+ip address shown: 192.168.119.128
+==================================
+
+start putty: 
+enter ip address as : 192.168.119.128
+(user name / password : training/training )
+========================================
+login as: training
+training@192.168.119.128's password:
+Last login: Sat Aug 22 05:16:25 2020 from 192.168.119.1
+[training@hadoop ~]$ hive
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j.properties
+Hive history file=/tmp/training/hive_job_log_afe4fe81-7de4-4eeb-849f-25b3b3e50cf0_167705590.txt
+hive>
+
+========================================
+
+show tables
+===========
+hive> show tables;
+OK
+Time taken: 5.073 seconds
+hive>
+
+No tables present. 
+
+change to root user: 
+=====================
+$ su root
+
+
+
+
+Create a Table: 
+===============

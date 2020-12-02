@@ -1,0 +1,8 @@
+Hue
+
+It is a tool - web ui to hadoop cluster
+
+you can see hadoop file system , upload and download files we can do. 
+
+
+

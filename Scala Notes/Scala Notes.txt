@@ -1,0 +1,717 @@
+Scala : 
+ * Compiler based Programming language
+ * Built on functional programming principles
+ * Compiles into byte code
+ * Requires JDK and JRE
+ 
+ For applications better to install IDE such as IntelliJ or Eclipse
+ 
+ For Certification, REPL 
+ 
+ REPL - Read, Evaluate, Print and Loop.
+ 
+ export PATH=$PATH:~/scala/bin:~/oracle_sqlplus:~/apache-hive/bin
+ 
+ on Windows, automatically set environmental variables set. 
+ 
+To print text
+===============================
+scala> println("Hello World")
+===============================
+Hello World
+
+To exit from Scala 
+============================
+scala> :quit
+============================
+
+To clear the screen
+========================
+scala> cntrl + L 
+
+History of the commands
+========================
+scala> :history
+========================
+
+Save into a file 
+==========================
+scala> :save <path> 
+=========================
+
+
+ We can run for remote on using csgwin ( install csgwin : spelling need to be checked )
+ 
+ 
+ To execute multiple statements 
+ ==============
+ scala> :paste
+ =============
+// Enter paste mode (ctrl + D to finish)
+println("Hello World");
+1+2; 
+
+cntrl+D
+//Existing paste mode, now interpreting 
+Hello World
+3
+
+=========================
+val and var declaration
+=============================
+val is imutable
+var is mutable 
+
+String functions: 
+=======================
+scala> val s = "Hello World"
+s: String = Hello World
+
+scala> s.toUpperCase
+same as: 
+scala> s.toUpperCase()
+
+output:HELLO WORLD 
+
+===================
+s.toUpperCase
+s.toLowerCase
+s.lenth
+s.subString(6,2) // from 6th char to 8th char 
+===================
+
+in Linux:  to know the syntax or definition of function , press tab
+eg.
+scala> s.subString    (press TAB - shows the function definition)
+
+Print range of 100 numbers : 
+==============================
+scala> for (i <- (1 to 100) ){
+        println(i)
+		}
+
+================================
+output:
+1
+2
+3
+...
+100
+
+* print sum of 100 numbers: 
+Since we are writing in paste mode program no need to write { for multiple statements }
+===================
+
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+val i = 20
+i = 30
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+var total = 0
+for ( element <- (1 to 100)  )
+total = total + element
+
+
+// Exiting paste mode, now interpreting.
+
+var total: Int = 5050
+==========================
+
+* Print total of even numbers
+====================================
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+val i = 20
+i = 30
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+var total = 0
+for ( element <- (1 to 100)  )
+total = total + element
+
+
+// Exiting paste mode, now interpreting.
+
+var total: Int = 5050
+==================================================
+
+* Print sum of even numbers and odd numbers
+
+===========================================
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+var totalEven = 0
+var totalOdd = 0
+for( element <- (1 to 100) )
+{
+   if ( element%2 == 0 )
+     totalEven += element
+   else
+     totalOdd += element
+}
+
+
+
+// Exiting paste mode, now interpreting.
+
+var totalEven: Int = 2550
+var totalOdd: Int = 2500
+
+WHILE LOOP: 
+* same program to pring sum of even and odd numbers upto 100 
+==========================================================
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+var lb = 1
+val ub =100
+var totalEven = 0
+var totalOdd = 0
+while( lb <= ub )
+{
+  if (lb%2==0)
+   totalEven += lb
+  else
+    totalOdd += lb
+
+   lb+=1
+
+}
+
+
+// Exiting paste mode, now interpreting.
+
+var lb: Int = 101
+val ub: Int = 100
+var totalEven: Int = 2550
+var totalOdd: Int = 2500
+
+
+*Defining a function and calling
+*sum of range between two given values
+====================================
+
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+def sum( lb: Int, ub: Int ) = {
+var total = 0
+for ( element <- lb to ub )
+{
+   total += element
+}
+total
+}
+
+
+// Exiting paste mode, now interpreting.
+
+def sum(lb: Int, ub: Int): Int
+
+scala> sum(1,100)
+val res0: Int = 5050
+
+
+* Calling a function in another function
+================================================
+
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+def sum(func: Int=> Int, lb: Int, ub: Int) = {
+var total = 0
+for ( element <- lb to ub ) {
+total += func(element)
+}
+total
+}
+
+
+// Exiting paste mode, now interpreting.
+
+def sum(func: Int => Int, lb: Int, ub: Int): Int
+
+scala> def id(i: Int) = i
+def id(i: Int): Int
+
+scala> def sqr(i: Int) = i * i
+def sqr(i: Int): Int
+
+scala> def cube(i: Int) = i*i*i
+def cube(i: Int): Int
+
+scala> def double(i : Int ) = 2 * i
+def double(i: Int): Int
+
+scala> sum(id,1,10)
+val res0: Int = 55
+
+scala> sum(sqr,1,10)
+val res1: Int = 385
+
+scala> sum(cube,1,10)
+val res2: Int = 3025
+
+scala> sum(double,1,10)
+val res3: Int = 110
+
+===================================
+
+Anonymous Functions: 
+Without giving name we can define 
+
+In the above example, we are calling  sum( func,v1, v2)
+Here in func, we can send defined function or anonymous function 
+
+Examples shown below: 
+======================
+scala> sum( i => i , 1,10 )
+val res4: Int = 55
+
+scala> sum( i => i * i , 1,10 )
+val res5: Int = 385
+
+scala> sum(i => i*i*i, 1, 10)
+val res6: Int = 3025
+
+scala> sum(i => 2*i, 1,10)
+val res7: Int = 110
+===============================
+
+We can write or define any logic may be complex,  want to add square of number if number is even and add double of number if number is odd. 
+==================
+scala> sum ( i =>  {
+     | if ( i%2 == 0 )
+     | i*i
+     | else
+     | 2*i
+     | }, 1,10)
+val res8: Int = 270
+=========================
+
+*DEFINING CLASS 
+
+=======================================================
+scala> class Order(orderId: Int, orderDate: String,orderCustomerId: Int, orderStatus: String){
+     | println("I am inside Order Constructor")
+     | }
+class Order
+
+scala> :javap -p Order
+Compiled from "<console>"
+public class $line3.$read$$iw$Order {
+  public final $line3.$read$$iw $outer;
+  public $line3.$read$$iw $line3$$read$$iw$Order$$$outer();
+  public $line3.$read$$iw$Order($line3.$read$$iw, int, java.lang.String, int, java.lang.String);
+}
+
+==============================
+
+
+scala> val Order = new Order(1,"2020-09-21 00:00:00.000",100,"COMPLETE")
+I am inside Order Constructor
+val Order: Order = Order@9be7319
+
+
+*Override toString method 
+================================
+scala> class Order(orderId: Int, orderDate: String,orderCustomerId: Int, orderStatus: String){
+     | println("I am inside Order Constructor")
+     | override def toString = "Order(" + orderId + "," + orderDate + "," + orderCustomerId + "," + orderStatus + ")"
+     | }
+class Order
+
+scala> val Order = new Order(1,"2020-09-21 00:00:00.000",100,"COMPLETE")
+I am inside Order Constructor
+val Order: Order = Order(1,2020-09-21 00:00:00.000,100,COMPLETE)
+
+=======================================================
+* to print toString method
+
+scala> println(Order)
+Order(1,2020-09-21 00:00:00.000,100,COMPLETE)
+
+===============================
+javap after toString
+
+scala> :javap -p Order
+Compiled from "<console>"
+public class $line8.$read$$iw$Order {
+  private final int orderId;
+  private final java.lang.String orderDate;
+  private final int orderCustomerId;
+  private final java.lang.String orderStatus;
+  public final $line8.$read$$iw $outer;
+  public java.lang.String toString();
+  public $line8.$read$$iw $line8$$read$$iw$Order$$$outer();
+  public $line8.$read$$iw$Order($line8.$read$$iw, int, java.lang.String, int, java.lang.String);
+}
+
+*** Private variables created, and toString method defined. 
+getter methods using val
+
+====================================================
+scala> class Order(val orderId:Int, val orderDate: String, val orderCustomerId: Int, val orderStatus: String){
+     | println(" I am inside Order Constructor")
+     | override def toString = "Order(" + orderId + "," + orderDate + "," + orderCustomerId + "," + orderStatus + ")"
+     | }
+class Order
+
+scala> :javap -p Order
+Compiled from "<console>"
+public class $line12.$read$$iw$Order {
+  private final int orderId;
+  private final java.lang.String orderDate;
+  private final int orderCustomerId;
+  private final java.lang.String orderStatus;
+  public final $line12.$read$$iw $outer;
+  public int orderId();
+  public java.lang.String orderDate();
+  public int orderCustomerId();
+  public java.lang.String orderStatus();
+  public java.lang.String toString();
+  public $line12.$read$$iw $line12$$read$$iw$Order$$$outer();
+  public $line12.$read$$iw$Order($line12.$read$$iw, int, java.lang.String, int, java.lang.String);
+}
+
+* create Order object 
+
+scala> val Order = new Order(1,"2020-09-21 00:00:00.000",100,"COMPLETE")
+ I am inside Order Constructor
+val Order: Order = Order(1,2020-09-21 00:00:00.000,100,COMPLETE)
+
+
+*access values using object.variable
+
+scala> Order.orderId
+val res5: Int = 1
+
+scala> Order.orderStatus
+val res6: String = COMPLETE
+
+
+
+================================
+* setter methods using var 
+* Now the varibales are not final ( means they can be changed mutable )
+* So we can set the variable values 
+
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+class Order(var orderId:Int, var orderDate: String, var orderCustomerId: Int, var orderStatus: String){
+      println(" I am inside Order Constructor")
+      override def toString = "Order(" + orderId + "," + orderDate + "," + orderCustomerId + "," + orderStatus + ")"
+      }
+
+
+// Exiting paste mode, now interpreting.
+
+class Order
+
+scala> :javap -p Order
+Compiled from "<pastie>"
+public class $line18.$read$$iw$Order {
+  private int orderId;
+  private java.lang.String orderDate;
+  private int orderCustomerId;
+  private java.lang.String orderStatus;
+  public final $line18.$read$$iw $outer;
+  public int orderId();
+  public void orderId_$eq(int);
+  public java.lang.String orderDate();
+  public void orderDate_$eq(java.lang.String);
+  public int orderCustomerId();
+  public void orderCustomerId_$eq(int);
+  public java.lang.String orderStatus();
+  public void orderStatus_$eq(java.lang.String);
+  public java.lang.String toString();
+  public $line18.$read$$iw $line18$$read$$iw$Order$$$outer();
+  public $line18.$read$$iw$Order($line18.$read$$iw, int, java.lang.String, int, java.lang.String);
+}
+
+scala> val Order = new Order(1,"2020-09-21 00:00:00.000",100,"COMPLETE")
+ I am inside Order Constructor
+val Order: Order = Order(1,2020-09-21 00:00:00.000,100,COMPLETE)
+
+scala> Order.orderId
+val res7: Int = 1
+
+scala> Order.orderId = 3
+// mutated Order.orderId
+
+scala> Order.orderId
+val res8: Int = 3
+
+scala> println(Order)
+Order(3,2020-09-21 00:00:00.000,100,COMPLETE)
+
+=========================================
+Object -> Singleton 
+Constructors not required, we can write as many as methods 
+
+*** if no return type then we use unit like void in java 
+
+
+scala> object HelloWorld {
+     | def main(args: Array[String]):Unit ={
+     | println("Hello World")
+     | }
+     | }
+object HelloWorld
+
+scala> HelloWorld.main(Array(""))
+Hello World
+
+
+=========================================
+Companion Object -  Class name and Object is same
+=================================================
+
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+class Order(var orderId:Int, var orderDate: String, var orderCustomerId: Int, var orderStatus: String){
+      println(" I am inside Order Constructor")
+      override def toString = "Order(" + orderId + "," + orderDate + "," + orderCustomerId + "," + orderStatus + ")"
+      }
+object Order {
+   def apply(orderId: Int, orderDate: String, orderCustomerId: Int, orderStatus:  String) : Order = {
+   new Order(orderId, orderDate, orderCustomerId, orderStatus)
+   }
+ }
+
+
+// Exiting paste mode, now interpreting.
+
+class Order
+object Order
+
+ 
+ =========================================
+ *sublime Text 
+ *** For such lengthy codes, better to use sublime text 
+ * so that easy corrections/modifications  can be done 
+ 
+ 
+ scala> val order= Order.apply(1, "2020-09-22 00:00:00.000", 100,"Complete")
+ I am inside Order Constructor
+val order: Order = Order(1,2020-09-22 00:00:00.000,100,Complete)
+
+scala> :javap -p Order
+Compiled from "<pastie>"
+public class $line4.$read$$iw$Order {
+  private int orderId;
+  private java.lang.String orderDate;
+  private int orderCustomerId;
+  private java.lang.String orderStatus;
+  public final $line4.$read$$iw $outer;
+  public int orderId();
+  public void orderId_$eq(int);
+  public java.lang.String orderDate();
+  public void orderDate_$eq(java.lang.String);
+  public int orderCustomerId();
+  public void orderCustomerId_$eq(int);
+  public java.lang.String orderStatus();
+  public void orderStatus_$eq(java.lang.String);
+  public java.lang.String toString();
+  public $line4.$read$$iw $line4$$read$$iw$Order$$$outer();
+  public $line4.$read$$iw$Order($line4.$read$$iw, int, java.lang.String, int, java.lang.String);
+}
+
+==================
+For singleton class , having static method
+=========================
+scala> :javap -p Order$
+Compiled from "<pastie>"
+public class $line4.$read$$iw$Order$ {
+  private final $line4.$read$$iw $outer;
+  public $line4.$read$$iw$Order apply(int, java.lang.String, int, java.lang.String);
+  public $line4.$read$$iw$Order$($line4.$read$$iw);
+}
+
+
+====================
+we can write like this : 
+scala> val order= Order.apply(1, "2020-09-22 00:00:00.000", 100,"Complete")
+ I am inside Order Constructor
+val order: Order = Order(1,2020-09-22 00:00:00.000,100,Complete)
+
+
+or 
+
+scala> val order= Order(1, "2020-09-22 00:00:00.000", 100,"Complete")
+ I am inside Order Constructor
+val order: Order = Order(1,2020-09-22 00:00:00.000,100,Complete)
+
+**apply is a optional one 
+====================================
+
+=================================================
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+class Order(var orderId:Int, var orderDate: String, var orderCustomerId: Int, var orderStatus: String){
+      println(" I am inside Order Constructor")
+      override def toString = "Order(" + orderId + "," + orderDate + "," + orderCustomerId + "," + orderStatus + ")"
+      }
+object Order {
+   def apply(orderId: Int, orderDate: String, orderCustomerId: Int, orderStatus:  String) : Order = {
+   new Order(orderId, orderDate, orderCustomerId, orderStatus)
+   }
+   
+   def apply(orderId: String, orderDate: String, orderCustomerId: String, orderStatus:  String) : Order = {
+   new Order(orderId.toInt, orderDate, orderCustomerId.toInt, orderStatus)
+   }
+ }
+=========================================
+
+scala> :javap -p Order
+Compiled from "<pastie>"
+public class $line7.$read$$iw$Order {
+  private int orderId;
+  private java.lang.String orderDate;
+  private int orderCustomerId;
+  private java.lang.String orderStatus;
+  public final $line7.$read$$iw $outer;
+  public int orderId();
+  public void orderId_$eq(int);
+  public java.lang.String orderDate();
+  public void orderDate_$eq(java.lang.String);
+  public int orderCustomerId();
+  public void orderCustomerId_$eq(int);
+  public java.lang.String orderStatus();
+  public void orderStatus_$eq(java.lang.String);
+  public java.lang.String toString();
+  public $line7.$read$$iw $line7$$read$$iw$Order$$$outer();
+  public $line7.$read$$iw$Order($line7.$read$$iw, int, java.lang.String, int, java.lang.String);
+}
+
+scala> val order= Order.apply("1", "2020-09-22 00:00:00.000", "100","Complete")
+ I am inside Order Constructor
+val order: Order = Order(1,2020-09-22 00:00:00.000,100,Complete)
+
+==============================
+
+case classes: 
+
+* it implements Serializable 
+* it gets some additional methods for iteration 
+
+Collections: 
+============
+Array
+List
+Set
+Map
+
+==================
+ 
+scala> val a = Array(1,2,3,4)
+val a: Array[Int] = Array(1, 2, 3, 4)
+
+scala> val l = List(1,2,3,4,5)
+val l: List[Int] = List(1, 2, 3, 4, 5)
+
+scala> val S = Set(11,22,33,11,22,55)
+val S: scala.collection.immutable.Set[Int] = Set(11, 22, 33, 55)
+
+scala> val l = List(11,22,33,11,22,55)
+val l: List[Int] = List(11, 22, 33, 11, 22, 55)
+
+scala> val m = Map( "One" -> 1, "Two" -> 2 )
+val m: scala.collection.immutable.Map[String,Int] = Map(One -> 1, Two -> 2)
+
+=========================
+
+*** List allows duplicates, Set does not allow duplicates 
+
+========================
+scala> a.foreach(println)
+1
+2
+3
+4
+
+scala> l.foreach(println)
+11
+22
+33
+11
+22
+55
+
+scala> S.foreach(println)
+11
+22
+33
+55
+
+scala> m.foreach(println)
+(One,1)
+(Two,2)
+
+================================
+
+Accessing list elements with index  --> return element at that index
+Accessing Set elements with content --> return true or false
+Accessing Map elements with Value --> return Key
+
+scala> l(0)
+val res12: Int = 11
+
+scala> l(1)
+val res13: Int = 22
+
+scala> S(22)
+val res14: Boolean = true
+
+scala> S(20)
+val res15: Boolean = false
+
+scala> m("One")
+val res16: Int = 1
+
+scala> m("one")
+java.util.NoSuchElementException: key not found: one
+  at scala.collection.immutable.Map$Map2.apply(Map.scala:292)
+  ... 32 elided
+
+scala> m("Two")
+val res18: Int = 2
+
+==================================================
+
+List operations - min, max, size, toSet 
+
+scala> l.size
+val res19: Int = 6
+
+scala> l.min
+val res20: Int = 11
+
+scala> l.max
+val res21: Int = 55
+
+scala> l.toSet
+val res22: scala.collection.immutable.Set[Int] = Set(11, 22, 33, 55)
+
+scala> l
+val res23: List[Int] = List(11, 22, 33, 11, 22, 55)
+
+==============================================
+
+
+
+
+
+
+
+
+

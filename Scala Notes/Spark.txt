@@ -1,0 +1,157 @@
+	SPARK
+	
+	use sublime text editor for running the commands
+	***********
+	================================================
+	$ spark-shell --master yarn --conf spark.ui.port=12654 
+	=========================================================
+	
+	For reference save in sublime text editor : 
+	
+	$ spark-shell --master yarn --conf spark.ui.port=12654 
+	
+	if you want to save in multiple line use \
+	
+	=========================================
+	$ spark-shell --master yarn \
+     	--conf spark.ui.port=12654
+    ======================================
+	
+	type sc and sqlcontext
+	
+	==================
+	scala>sc
+	
+	=======================
+	scala>sqlcontext
+	
+	
+	===========================
+	
+  When we launch spark-shell : 
+  spark-shell = scala + spark dependencies + implicit varibales sc and sqlcontext
+  
+  ==============
+  help commands
+  $ spark-shell --help
+  ===============
+  
+  In this some important commands : 
+  =================
+  executor memory
+  num-executors 
+  ================
+  
+  RDD - Resilient Distributed DataSet
+  
+  File path: 
+  ===========
+  $ hadoop fs -ls /public/retail_db/orders
+  Found 1 file 
+  -rw-r--r-- 3 hdfs hdfs ... /public/retail_db/orders/part-0000
+  
+  ==========
+  To see the contents
+  ================
+  
+  $ hadoop fs -ls -tail /public/retail_db/orders/part-0000
+  shows the contents...
+  
+  ===============
+  Processing
+  ================
+  
+  scala> val orders = sc.textFile("/public/retail_db/orders")
+  
+  Accessing
+  ===============
+  scala> orders.first
+  shows the first record
+  
+  scala> orders.take(10)
+  shows the 10 records 
+  
+  
+  Read and show DataFrame: 
+  =========================
+  scala> val ordersDF = sqlcontext.read.json(“/public/retail_db_json/orders”)
+  scala> ordersDF.show
+
+  
+  Print Schema: 
+  =================
+  scala> ordersDF.printSchema
+  
+  Show few columns in dataframe
+  ===========================
+  scala> ordersDF.select(“order_id”,”order_date”).show
+  
+  
+  Load : 
+  ===========
+  scala>  ordersDF.load(“/public/retail_db/orders”,”json”).show
+  
+  String Operations: 
+  ==================
+  
+  scala>  val orders = sc.textFile(“/public/retail_db/orders”)
+
+scala> orders.first 
+
+scala> val str = orders.first
+
+scala> val a = str.spilt(“,”)
+
+scala> a(0)
+
+scala> a(1)
+
+scala> a(2)  
+
+conversion: 
+
+scala> val orderId = a(0).toInt
+orderId : Int = 1  ( output )
+various conversions: toInt , toFloat,  toDouble,  toString
+
+scala> val orderDate = a(1) 
+res16: string = 2013-07-25 00:00:00.0
+
+scala> orderDate.substring(0,10)
+res17: string = 2013-07-25
+
+scala> orderDate.substring(5,7)
+res18: string=07
+
+scala> orderDate.substring(11) 
+res19: string = 00:00:00.0
+
+scala> orderDate.replace(‘-‘, ‘/’)
+res20: string = 2013/07/25 00:00:00.0
+
+scala> orderDate.replace(“07”, “July”) 
+res21: string = 2013-July-25 00.00.00.0
+
+other functions: 
+
+length 
+toUpperCase
+toLowerCase
+charAt
+indexOf
+contains
+isEmpty
+endsWith
+startsWith
+
+
+
+
+
+  
+  
+  
+  
+  
+
+  

@@ -1,0 +1,5 @@
+Hue
+===========
+Hadoop user experience
+
+How to connect to Hue? 
